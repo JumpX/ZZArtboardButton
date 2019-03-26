@@ -112,6 +112,8 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
     }
 }
 
+#pragma mark - Test
+
 - (void)setCustomTitles {
     [self setTitle:@"自定义 正常状态" forState:UIControlStateNormal];
     [self setTitle:@"自定义 高亮状态" forState:UIControlStateHighlighted];
@@ -132,6 +134,8 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
     [self setTitle:@"类型二 高亮状态" forState:UIControlStateHighlighted | UIControlStateSelected];
     [self setTitle:@"类型二 无效状态" forState:UIControlStateDisabled];
 }
+
+#pragma mark - Custom Public
 
 - (void)setBackgroundImageWithUpNormalStyle {
     [self setBackgroundImage:self.up_normalImage  forState:UIControlStateNormal];
@@ -202,8 +206,8 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
 
 - (void)setBackgroundImageWithColors:(NSArray<UIColor *> *)backgroundColors boderColor:(UIColor *)boderColor forState:(UIControlState)state directionType:(BXArtboardDirectionType)directionType {
     CAGradientLayer *gradientLayer = [self createGradientLayerWithColors:backgroundColors directionType:directionType];
-    gradientLayer.cornerRadius = self.bounds.size.height/2.0;
     gradientLayer.borderWidth = 1.0;
+    gradientLayer.cornerRadius = self.bounds.size.height/2.0;
     gradientLayer.borderColor = boderColor.CGColor;
     UIImage *image = [gradientLayer snapshotImage];
     [self setBackgroundImage:image forState:state];

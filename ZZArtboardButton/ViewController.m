@@ -129,7 +129,7 @@
 - (void)createBXButtonDown {
     BXArtboardButton *upButton = [BXArtboardButton buttonWithType:UIButtonTypeCustom];
     upButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0*9, SCREEN_WIDTH/2.0, 44.0);
-    [upButton setType:BXArtboardTypeDown textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"类型一 正常状态"];
+    [upButton setType:BXArtboardTypeDown textColor:[UIColor colorWithHex:@"#1D9AFF"] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"类型一 正常状态"];
     [upButton setDownTitles];
     [upButton addTarget:self action:@selector(bxClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:upButton];

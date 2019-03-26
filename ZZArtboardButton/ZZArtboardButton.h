@@ -4,7 +4,8 @@
 //
 //  Created by Jungle on 2019/3/26.
 //  Copyright (c) 2019. All rights reserved.
-//
+//  简版
+//  定制全局按钮：带有圆角、背景图渐变色（或许有1px的框）
 
 #import <UIKit/UIKit.h>
 #import "UIColor+ZZAdd.h"
