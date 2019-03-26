@@ -54,7 +54,7 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
 
 @interface ZZArtboardButton ()
 
-@property (nonatomic, assign)   BXArtboardType      type;
+@property (nonatomic, assign)   ZZArtboardType      type;
 
 @property (nonatomic, strong)   UIImage             *up_normalImage;
 @property (nonatomic, strong)   UIImage             *up_highlightedImage;
@@ -72,7 +72,7 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
 
 #pragma mark - Public
 
-- (void)setType:(BXArtboardType)type textColor:(UIColor *)textColor font:(UIFont *)font text:(NSString *)text {
+- (void)setType:(ZZArtboardType)type textColor:(UIColor *)textColor font:(UIFont *)font text:(NSString *)text {
     [self.titleLabel setFont:font];
     [self setTitle:text forState:UIControlStateNormal];
     [self setTitleColor:textColor forState:UIControlStateNormal];
@@ -85,10 +85,10 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
     self.layer.masksToBounds = YES;
 }
 
-- (void)setType:(BXArtboardType)type {
+- (void)setType:(ZZArtboardType)type {
     _type = type;
     switch (type) {
-        case BXArtboardTypeUp: {
+        case ZZArtboardTypeUp: {
             [self setBackgroundImage:self.up_normalImage  forState:UIControlStateNormal];
             [self setBackgroundImage:self.up_highlightedImage  forState:UIControlStateHighlighted];
             [self setBackgroundImage:self.up_highlightedImage  forState:UIControlStateHighlighted | UIControlStateSelected];
@@ -96,7 +96,7 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
             [self setBackgroundImage:self.up_disabledImage  forState:UIControlStateDisabled];
         }
             break;
-        case BXArtboardTypeDown: {
+        case ZZArtboardTypeDown: {
             [self setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
             [self setBackgroundImage:self.down_normalImage  forState:UIControlStateNormal];
             [self setBackgroundImage:self.down_highlightedImage  forState:UIControlStateHighlighted];

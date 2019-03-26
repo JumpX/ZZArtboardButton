@@ -15,6 +15,7 @@
 		547AC19B2249CA9F005788FD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AC19A2249CA9F005788FD /* main.m */; };
 		547AC1A32249CAB9005788FD /* ZZArtboardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AC1A22249CAB9005788FD /* ZZArtboardButton.m */; };
 		547AC1A62249CC35005788FD /* UIColor+ZZAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AC1A52249CC35005788FD /* UIColor+ZZAdd.m */; };
+		547AC1AA224A29A2005788FD /* BXArtboardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AC1A8224A29A2005788FD /* BXArtboardButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,8 @@
 		547AC1A22249CAB9005788FD /* ZZArtboardButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZArtboardButton.m; sourceTree = "<group>"; };
 		547AC1A42249CC35005788FD /* UIColor+ZZAdd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+ZZAdd.h"; sourceTree = "<group>"; };
 		547AC1A52249CC35005788FD /* UIColor+ZZAdd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ZZAdd.m"; sourceTree = "<group>"; };
+		547AC1A8224A29A2005788FD /* BXArtboardButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXArtboardButton.m; sourceTree = "<group>"; };
+		547AC1A9224A29A2005788FD /* BXArtboardButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXArtboardButton.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +74,8 @@
 				547AC18F2249CA9D005788FD /* ViewController.m */,
 				547AC1A12249CAB9005788FD /* ZZArtboardButton.h */,
 				547AC1A22249CAB9005788FD /* ZZArtboardButton.m */,
+				547AC1A9224A29A2005788FD /* BXArtboardButton.h */,
+				547AC1A8224A29A2005788FD /* BXArtboardButton.m */,
 			);
 			path = ZZArtboardButton;
 			sourceTree = "<group>";
@@ -159,6 +164,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				547AC1AA224A29A2005788FD /* BXArtboardButton.m in Sources */,
 				547AC1A32249CAB9005788FD /* ZZArtboardButton.m in Sources */,
 				547AC1902249CA9D005788FD /* ViewController.m in Sources */,
 				547AC19B2249CA9F005788FD /* main.m in Sources */,

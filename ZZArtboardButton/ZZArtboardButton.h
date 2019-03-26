@@ -9,18 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "UIColor+ZZAdd.h"
 
-typedef NS_ENUM(NSInteger, BXArtboardType) {
-    BXArtboardTypeUp,
-    BXArtboardTypeDown
+typedef NS_ENUM(NSInteger, ZZArtboardType) {
+    ZZArtboardTypeUp,
+    ZZArtboardTypeDown
 };
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZZArtboardButton : UIButton
 
-@property (nonatomic, assign) BXArtboardType artboardType;
+@property (nonatomic, assign) ZZArtboardType artboardType;
 
-- (void)setType:(BXArtboardType)type textColor:(UIColor *)textColor font:(UIFont *)font text:(NSString *)text;
+- (void)setType:(ZZArtboardType)type textColor:(UIColor *)textColor font:(UIFont *)font text:(NSString *)text;
 
 - (void)setUpTitles;
 - (void)setDownTitles;
