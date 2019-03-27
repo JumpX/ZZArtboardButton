@@ -1,6 +1,6 @@
 //
 //  BXArtboardButton.h
-//  YppLife
+//  ZZArtboardButton
 //
 //  Created by Jungle on 2019/3/25.
 //  Copyright (c) 2019. All rights reserved.
@@ -48,12 +48,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// 按钮类型
 typedef NS_ENUM(NSInteger, BXArtboardType) {
-    BXArtboardTypeCustom,       // 自定义（普通的UIButton，不带任何效果）
-    BXArtboardTypeUp,           // 类型一（蓝条：背景渐变色）
-    BXArtboardTypeDown          // 类型二（白条：不渐变）
+    BXArtboardTypeCustom,           // 自定义（普通的UIButton，不带任何效果）
+    BXArtboardTypeUp,               // 类型一（蓝条：背景渐变色）
+    BXArtboardTypeDown              // 类型二（白条：不渐变）
 };
 
+// 渐变方向
 typedef NS_ENUM(NSInteger, BXArtboardDirectionType) {
     BXArtboardDirectionTypeDefault,                 // 左下 -> 右上（默认）
     BXArtboardDirectionTypeTopToBottom,             // 上 -> 下
@@ -71,18 +73,32 @@ typedef NS_ENUM(NSInteger, BXArtboardDirectionType) {
 - (void)setUpTitles;
 - (void)setDownTitles;
 
-/* 以下为可选方法 */
-/* 建议只在 type = BXArtboardTypeCustom 时使用 */
 
-- (void)setBackgroundImageWithUpNormalStyle;
-- (void)setBackgroundImageWithUpHighlightedStyle;
-- (void)setBackgroundImageWithUpDisableStyle;
-- (void)setBackgroundImageWithDownNormalStyle;
-- (void)setBackgroundImageWithDownHighlightedStyle;
-- (void)setBackgroundImageWithDownDisableStyle;
+/************************** 以下为可选方法 **************************/
+/*********** 建议只在 type = BXArtboardTypeCustom 时使用 ************/
+
+/* 系统高亮，默认YES */
+@property (nonatomic, assign) BOOL bxAdjustsWhenHighlighted;// 比adjustsImageWhenHighlighted准确
+
+/* 自定义类型 使用蓝条 */
+- (void)setUpNormalStyleWithNormalState;
+- (void)setUpHighlightedStyleWithHighlightedState;
+- (void)setUpDisabledStyleWithDisabledState;
+- (void)setUpNormalStyleWithState:(UIControlState)state;
+- (void)setUpHighlightedStyleWithState:(UIControlState)state;
+- (void)setUpDisabledStyleWithState:(UIControlState)state;
+/* 自定义类型 使用白条 */
+- (void)setDownNormalStyleWithNormalState;
+- (void)setDownHighlightedStyleWithHighlightedState;
+- (void)setDownDisabledStyleWithDisabledState;
+- (void)setDownNormalStyleWithState:(UIControlState)state;
+- (void)setDownHighlightedStyleWithState:(UIControlState)state;
+- (void)setDownDisabledStyleWithState:(UIControlState)state;
 
 /* 清除所有状态下背景图 */
 - (void)clearAllBackgroundImages;
+
+#pragma mark - 设置背景图
 
 /**
  设置背景图（纯色）
@@ -142,6 +158,37 @@ typedef NS_ENUM(NSInteger, BXArtboardDirectionType) {
                           boderColor:(UIColor *)boderColor
                             forState:(UIControlState)state
                        directionType:(BXArtboardDirectionType)directionType;
+
+#pragma mark - 图层
+
+/**
+ 渐变图层
+ 
+ @param frame               frame
+ @param colors              渐变颜色数组
+ @param directionType       BXArtboardDirectionType（默认左下->右上）
+ @return                    渐变图层
+ */
+- (CAGradientLayer *)gradientLayerWithFrame:(CGRect)frame colors:(NSArray <UIColor *>*)colors directionType:(BXArtboardDirectionType)directionType;
+
+/**
+ 图层（背景色、带1px框）
+ 
+ @param frame               frame
+ @param bgColor             背景色
+ @param borderColor         框颜色
+ @return                    图层
+ */
+- (CALayer *)createLayerWithFrame:(CGRect)frame bgColor:(UIColor *)bgColor borderColor:(UIColor *)borderColor;
+
+/**
+ 图层（背景色）
+ 
+ @param frame               frame
+ @param color               背景色
+ @return                    图层
+ */
+- (CALayer *)maskLayerWithFrame:(CGRect)frame color:(UIColor *)color;
 
 @end
 

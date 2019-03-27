@@ -13,7 +13,6 @@
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
-
 @implementation ViewController
 
 - (void)viewDidLoad {
@@ -51,15 +50,21 @@
     [customButton setType:BXArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
     [customButton setBackgroundImageWithColor:[UIColor redColor] forState:UIControlStateNormal];
+    [customButton setBackgroundImageWithColor:[UIColor blackColor] forState:UIControlStateSelected];
+    customButton.bxAdjustsWhenHighlighted = NO;
+    [customButton addTarget:self action:@selector(bxSelectedClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:customButton];
 }
 
 - (void)createButton2 {
     BXArtboardButton *customButton = [BXArtboardButton buttonWithType:UIButtonTypeCustom];
     customButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0, SCREEN_WIDTH/2.0, 44.0);
+    customButton.bxAdjustsWhenHighlighted = NO;
     [customButton setType:BXArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
     [customButton setBackgroundImageWithColor:[UIColor redColor] boderColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [customButton setBackgroundImageWithColor:[UIColor greenColor] boderColor:[UIColor blueColor] forState:UIControlStateSelected];
+    [customButton addTarget:self action:@selector(bxChangeFrameClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:customButton];
 }
 
@@ -167,7 +172,26 @@
     });
 }
 
+- (void)bxSelectedClick:(BXArtboardButton *)button {
+    button.selected = !button.selected;
+    button.frame = CGRectMake(10, 100, 200, 80);
+}
+
+- (void)bxChangeFrameClick:(BXArtboardButton *)button {
+    button.selected = !button.selected;
+    CGRect rect = CGRectMake(150, 100, 200, 80);
+    if (!CGRectEqualToRect(button.frame, rect)) {
+        button.frame = rect;
+        [button setBackgroundImageWithColor:[UIColor redColor] boderColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [button setBackgroundImageWithColor:[UIColor greenColor] boderColor:[UIColor blueColor] forState:UIControlStateSelected];
+    }
+}
+
 - (void)bxClick:(BXArtboardButton *)button {
+    CGRect rect = button.frame;
+    rect.size.width = 300;
+    rect.size.height = 60;
+    button.frame = rect;
     if (!button.selected) {
         button.selected = YES;
     } else {
@@ -176,6 +200,10 @@
     }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         button.enabled = YES;
+        CGRect rect = button.frame;
+        rect.size.width = 240;
+        rect.size.height = 40;
+        button.frame = rect;
     });
 }
 

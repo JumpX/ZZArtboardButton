@@ -1,6 +1,6 @@
 //
 //  BXArtboardButton.m
-//  YppLife
+//  ZZArtboardButton
 //
 //  Created by Jungle on 2019/3/25.
 //  Copyright (c) 2019. All rights reserved.
@@ -10,7 +10,6 @@
 
 static NSString * const kUpNormalFromColor = @"#2FCEFF";
 static NSString * const kUpNormalToColor = @"#39A7FF";
-
 static NSString * const kDownNormalTitleColor = @"#1D9AFF";
 static NSString * const kDownNormalBorderLayerColor = @"#2399FF";
 static NSString * const kDownDisbaledBackgroundColor = @"#C8C8C8";
@@ -56,6 +55,7 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
 @interface BXArtboardButton ()
 
 @property (nonatomic, assign)   BXArtboardType      type;
+@property (nonatomic, assign)   CGSize              currentSize;
 
 @property (nonatomic, strong)   UIImage             *up_normalImage;
 @property (nonatomic, strong)   UIImage             *up_highlightedImage;
@@ -69,55 +69,82 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
 
 @implementation BXArtboardButton
 
-#pragma mark - Public
++ (instancetype)buttonWithType:(UIButtonType)buttonType {
+    BXArtboardButton *button = [super buttonWithType:buttonType];
+    if (button) {
+        button.bxAdjustsWhenHighlighted = YES;
+        button.layer.masksToBounds = YES;
+    }
+    return button;
+}
 
 - (void)setType:(BXArtboardType)type textColor:(UIColor *)textColor font:(UIFont *)font text:(NSString *)text {
     [self.titleLabel setFont:font];
     [self setTitle:text forState:UIControlStateNormal];
     [self setTitleColor:textColor forState:UIControlStateNormal];
-    self.type = type;
-}
-
-- (void)setFrame:(CGRect)frame {
-    [super setFrame:frame];
-    self.layer.cornerRadius = frame.size.height/2.0;
-    self.layer.masksToBounds = YES;
-}
-
-- (void)setType:(BXArtboardType)type {
     _type = type;
-    switch (type) {
-        case BXArtboardTypeUp: {
-            [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [self setBackgroundImageWithUpNormalStyle];
-            [self setBackgroundImageWithUpHighlightedStyle];
-            [self setBackgroundImageWithUpDisableStyle];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    if (!CGSizeEqualToSize(_currentSize, self.bounds.size)) {
+        _currentSize = self.bounds.size;
+        self.layer.cornerRadius = _currentSize.height/2.0;
+        switch (_type) {
+            case BXArtboardTypeUp: {
+                [self resetUpStyle];
+            }
+                break;
+            case BXArtboardTypeDown: {
+                [self resetDownStyle];
+            }
+                break;
+            case BXArtboardTypeCustom: {
+                // 自定义类型 不作处理 （注意：不要轻易改变自定义类型的frame）
+                // 若需求需要，请在改变frame后，再重新设置一遍背景图
+            }
+                break;
+                
+            default:
+                break;
         }
-            break;
-        case BXArtboardTypeDown: {
-            [self setTitleColor:[UIColor colorWithHex:kDownNormalTitleColor] forState:UIControlStateNormal];
-            [self setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
-            [self setBackgroundImageWithDownNormalStyle];
-            [self setBackgroundImageWithDownHighlightedStyle];
-            [self setBackgroundImageWithDownDisableStyle];
-        }
-            break;
-        case BXArtboardTypeCustom: {
-            
-        }
-            break;
-            
-        default:
-            break;
     }
+    _currentSize = self.bounds.size;
+}
+
+#pragma mark - Private
+
+- (void)resetUpStyle {
+    _up_normalImage = nil;
+    _up_highlightedImage = nil;
+    _up_disabledImage = nil;
+    [self clearAllBackgroundImages];
+    [self setUpNormalStyleWithNormalState];
+    [self setUpHighlightedStyleWithHighlightedState];
+    [self setUpDisabledStyleWithDisabledState];
+    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+}
+
+- (void)resetDownStyle {
+    _down_normalImage = nil;
+    _down_highlightedImage = nil;
+    _down_disabledImage = nil;
+    [self clearAllBackgroundImages];
+    [self setDownNormalStyleWithNormalState];
+    [self setDownHighlightedStyleWithHighlightedState];
+    [self setDownDisabledStyleWithDisabledState];
+    [self setTitleColor:[UIColor colorWithHex:kDownNormalTitleColor] forState:UIControlStateNormal];
+    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
 }
 
 #pragma mark - Test
 
 - (void)setCustomTitles {
+    
     [self setTitle:@"自定义 正常状态" forState:UIControlStateNormal];
-    [self setTitle:@"自定义 高亮状态" forState:UIControlStateHighlighted];
-    [self setTitle:@"自定义 高亮状态" forState:UIControlStateHighlighted | UIControlStateSelected];
+    //    [self setTitle:@"自定义 高亮状态" forState:UIControlStateHighlighted];
+    [self setTitle:@"自定义 选中状态" forState:UIControlStateHighlighted | UIControlStateSelected];
+    [self setTitle:@"自定义 选中状态" forState:UIControlStateSelected];
     [self setTitle:@"自定义 无效状态" forState:UIControlStateDisabled];
 }
 
@@ -135,33 +162,100 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
     [self setTitle:@"类型二 无效状态" forState:UIControlStateDisabled];
 }
 
+#pragma mark - Setter
+
+- (void)setBxAdjustsWhenHighlighted:(BOOL)bxAdjustsWhenHighlighted {
+    _bxAdjustsWhenHighlighted = bxAdjustsWhenHighlighted;
+    if (bxAdjustsWhenHighlighted) {
+        self.adjustsImageWhenHighlighted = YES;
+    } else {
+        self.adjustsImageWhenHighlighted = NO;
+        NSString *selectedTitle = [self titleForState:UIControlStateSelected];
+        if (selectedTitle && selectedTitle.length > 0) {
+            [self setTitle:selectedTitle forState:UIControlStateSelected | UIControlStateHighlighted];
+        }
+        UIImage *selectedBackgroundImage = [self backgroundImageForState:UIControlStateSelected];
+        if (selectedBackgroundImage) {
+            [self setBackgroundImage:selectedBackgroundImage forState:UIControlStateSelected | UIControlStateHighlighted];
+        }
+    }
+}
+
+- (void)setTitle:(NSString *)title forState:(UIControlState)state {
+    [super setTitle:title forState:state];
+    if (!_bxAdjustsWhenHighlighted) {
+        if (state == UIControlStateSelected) {
+            [super setTitle:title forState:UIControlStateSelected | UIControlStateHighlighted];
+        }
+    }
+}
+
+- (void)setBackgroundImage:(UIImage *)image forState:(UIControlState)state {
+    [super setBackgroundImage:image forState:state];
+    if (!self.bxAdjustsWhenHighlighted) {
+        if (state == UIControlStateSelected) {
+            [super setBackgroundImage:image forState:UIControlStateSelected | UIControlStateHighlighted];
+        }
+    }
+}
+
 #pragma mark - Custom Public
 
-- (void)setBackgroundImageWithUpNormalStyle {
-    [self setBackgroundImage:self.up_normalImage  forState:UIControlStateNormal];
+/* 自定义类型 使用蓝条 */
+
+- (void)setUpNormalStyleWithNormalState {
+    [self setUpNormalStyleWithState:UIControlStateNormal];
 }
 
-- (void)setBackgroundImageWithUpHighlightedStyle {
-    [self setBackgroundImage:self.up_highlightedImage  forState:UIControlStateHighlighted];
-    [self setBackgroundImage:self.up_highlightedImage  forState:UIControlStateHighlighted | UIControlStateSelected];
+- (void)setUpHighlightedStyleWithHighlightedState {
+    [self setUpHighlightedStyleWithState:UIControlStateHighlighted];
+    [self setUpHighlightedStyleWithState:UIControlStateHighlighted | UIControlStateSelected];
 }
 
-- (void)setBackgroundImageWithUpDisableStyle {
-    [self setBackgroundImage:self.up_disabledImage  forState:UIControlStateDisabled];
+- (void)setUpDisabledStyleWithDisabledState {
+    [self setUpDisabledStyleWithState:UIControlStateDisabled];
 }
 
-- (void)setBackgroundImageWithDownNormalStyle {
-    [self setBackgroundImage:self.down_normalImage  forState:UIControlStateNormal];
+- (void)setUpNormalStyleWithState:(UIControlState)state {
+    [self setBackgroundImage:self.up_normalImage forState:state];
 }
 
-- (void)setBackgroundImageWithDownHighlightedStyle {
-    [self setBackgroundImage:self.down_highlightedImage  forState:UIControlStateHighlighted];
-    [self setBackgroundImage:self.down_highlightedImage  forState:UIControlStateHighlighted | UIControlStateSelected];
+- (void)setUpHighlightedStyleWithState:(UIControlState)state {
+    [self setBackgroundImage:self.up_highlightedImage forState:state];
 }
 
-- (void)setBackgroundImageWithDownDisableStyle {
-    [self setBackgroundImage:self.down_disabledImage  forState:UIControlStateDisabled];
+- (void)setUpDisabledStyleWithState:(UIControlState)state {
+    [self setBackgroundImage:self.up_disabledImage forState:state];
 }
+
+/* 自定义类型 使用白条 */
+
+- (void)setDownNormalStyleWithNormalState {
+    [self setDownNormalStyleWithState:UIControlStateNormal];
+}
+
+- (void)setDownHighlightedStyleWithHighlightedState {
+    [self setDownHighlightedStyleWithState:UIControlStateHighlighted];
+    [self setDownHighlightedStyleWithState:UIControlStateHighlighted | UIControlStateSelected];
+}
+
+- (void)setDownDisabledStyleWithDisabledState {
+    [self setDownDisabledStyleWithState:UIControlStateDisabled];
+}
+
+- (void)setDownNormalStyleWithState:(UIControlState)state {
+    [self setBackgroundImage:self.down_normalImage forState:state];
+}
+
+- (void)setDownHighlightedStyleWithState:(UIControlState)state {
+    [self setBackgroundImage:self.down_highlightedImage forState:state];
+}
+
+- (void)setDownDisabledStyleWithState:(UIControlState)state {
+    [self setBackgroundImage:self.down_disabledImage forState:state];
+}
+
+/* 清除所有状态下背景图 */
 
 - (void)clearAllBackgroundImages {
     [self setBackgroundImage:nil  forState:UIControlStateNormal];
@@ -171,26 +265,28 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
     [self setBackgroundImage:nil  forState:UIControlStateDisabled];
 }
 
+/* 设置背景图 */
+
 - (void)setBackgroundImageWithColor:(UIColor *)backgroundColor forState:(UIControlState)state {
-    CALayer *layer = [self createMaskLayerWithColor:backgroundColor];
+    CALayer *layer = [self maskLayerWithFrame:self.bounds color:backgroundColor];
     UIImage *image = [layer snapshotImage];
     [self setBackgroundImage:image forState:state];
 }
 
 - (void)setBackgroundImageWithColor:(UIColor *)backgroundColor boderColor:(UIColor *)boderColor forState:(UIControlState)state {
-    CALayer *layer = [self createLayerWithBgColor:backgroundColor borderColor:boderColor];
+    CALayer *layer = [self createLayerWithFrame:self.bounds bgColor:backgroundColor borderColor:boderColor];
     UIImage *image = [layer snapshotImage];
     [self setBackgroundImage:image forState:state];
 }
 
 - (void)setBackgroundImageWithColors:(NSArray *)backgroundColors forState:(UIControlState)state {
-    CAGradientLayer *gradientLayer = [self createGradientLayerWithColors:backgroundColors directionType:BXArtboardDirectionTypeDefault];
+    CAGradientLayer *gradientLayer = [self gradientLayerWithFrame:self.bounds colors:backgroundColors directionType:BXArtboardDirectionTypeDefault];
     UIImage *image = [gradientLayer snapshotImage];
     [self setBackgroundImage:image forState:state];
 }
 
 - (void)setBackgroundImageWithColors:(NSArray<UIColor *> *)backgroundColors boderColor:(UIColor *)boderColor forState:(UIControlState)state {
-    CAGradientLayer *gradientLayer = [self createGradientLayerWithColors:backgroundColors directionType:BXArtboardDirectionTypeDefault];
+    CAGradientLayer *gradientLayer = [self gradientLayerWithFrame:self.bounds colors:backgroundColors directionType:BXArtboardDirectionTypeDefault];
     gradientLayer.borderWidth = 1.0;
     gradientLayer.cornerRadius = self.bounds.size.height/2.0;
     gradientLayer.borderColor = boderColor.CGColor;
@@ -199,13 +295,13 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
 }
 
 - (void)setBackgroundImageWithColors:(NSArray<UIColor *> *)backgroundColors forState:(UIControlState)state directionType:(BXArtboardDirectionType)directionType {
-    CAGradientLayer *gradientLayer = [self createGradientLayerWithColors:backgroundColors directionType:directionType];
+    CAGradientLayer *gradientLayer = [self gradientLayerWithFrame:self.bounds colors:backgroundColors directionType:directionType];
     UIImage *image = [gradientLayer snapshotImage];
     [self setBackgroundImage:image forState:state];
 }
 
 - (void)setBackgroundImageWithColors:(NSArray<UIColor *> *)backgroundColors boderColor:(UIColor *)boderColor forState:(UIControlState)state directionType:(BXArtboardDirectionType)directionType {
-    CAGradientLayer *gradientLayer = [self createGradientLayerWithColors:backgroundColors directionType:directionType];
+    CAGradientLayer *gradientLayer = [self gradientLayerWithFrame:self.bounds colors:backgroundColors directionType:directionType];
     gradientLayer.borderWidth = 1.0;
     gradientLayer.cornerRadius = self.bounds.size.height/2.0;
     gradientLayer.borderColor = boderColor.CGColor;
@@ -213,9 +309,9 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
     [self setBackgroundImage:image forState:state];
 }
 
-#pragma mark - Private
+/* 渐变图层 */
 
-- (CAGradientLayer *)createGradientLayerWithColors:(NSArray <UIColor *>*)colors directionType:(BXArtboardDirectionType)directionType {
+- (CAGradientLayer *)gradientLayerWithFrame:(CGRect)frame colors:(NSArray <UIColor *>*)colors directionType:(BXArtboardDirectionType)directionType {
     NSInteger count = colors.count;
     if (colors.count <= 0) {
         return [CAGradientLayer layer];
@@ -258,25 +354,25 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
     gradientLayer.locations = [locations copy];
     gradientLayer.startPoint = startPoint;
     gradientLayer.endPoint = endPoint;
-    gradientLayer.frame = self.bounds;
+    gradientLayer.frame = frame;
     return gradientLayer;
 }
 
-- (CALayer *)createLayerWithBgColor:(UIColor *)bgColor borderColor:(UIColor *)borderColor {
+- (CALayer *)createLayerWithFrame:(CGRect)frame bgColor:(UIColor *)bgColor borderColor:(UIColor *)borderColor {
     CALayer *layer = [CALayer layer];
     layer.backgroundColor = bgColor.CGColor;
     layer.borderColor = borderColor.CGColor;
     layer.borderWidth = 1.0;
-    layer.cornerRadius = self.bounds.size.height/2.0;
+    layer.cornerRadius = frame.size.height/2.0;
     layer.masksToBounds = YES;
-    layer.frame = self.bounds;
+    layer.frame = frame;
     return layer;
 }
 
-- (CALayer *)createMaskLayerWithColor:(UIColor *)color {
+- (CALayer *)maskLayerWithFrame:(CGRect)frame color:(UIColor *)color {
     CALayer *maskLayer = [CALayer layer];
     maskLayer.backgroundColor = color.CGColor;
-    maskLayer.frame = self.bounds;
+    maskLayer.frame = frame;
     return maskLayer;
 }
 
@@ -284,7 +380,7 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
 
 - (UIImage *)up_normalImage {
     if (!_up_normalImage) {
-        CAGradientLayer *gradientLayer = [self createGradientLayerWithColors:@[[UIColor colorWithHex:kUpNormalFromColor], [UIColor colorWithHex:kUpNormalToColor]] directionType:BXArtboardDirectionTypeDefault];
+        CAGradientLayer *gradientLayer = [self gradientLayerWithFrame:self.bounds colors:@[[UIColor colorWithHex:kUpNormalFromColor], [UIColor colorWithHex:kUpNormalToColor]] directionType:BXArtboardDirectionTypeDefault];
         _up_normalImage = [gradientLayer snapshotImage];
     }
     return _up_normalImage;
@@ -292,8 +388,8 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
 
 - (UIImage *)up_highlightedImage {
     if (!_up_highlightedImage) {
-        CAGradientLayer *gradientLayer = [self createGradientLayerWithColors:@[[UIColor colorWithHex:kUpNormalFromColor], [UIColor colorWithHex:kUpNormalToColor]] directionType:BXArtboardDirectionTypeDefault];
-        CALayer *maskLayer = [self createMaskLayerWithColor:[[UIColor blackColor] colorWithAlphaComponent:0.1]];
+        CAGradientLayer *gradientLayer = [self gradientLayerWithFrame:self.bounds colors:@[[UIColor colorWithHex:kUpNormalFromColor], [UIColor colorWithHex:kUpNormalToColor]] directionType:BXArtboardDirectionTypeDefault];
+        CALayer *maskLayer = [self maskLayerWithFrame:self.bounds color:[[UIColor blackColor] colorWithAlphaComponent:0.1]];
         [gradientLayer addSublayer:maskLayer];
         _up_highlightedImage = [gradientLayer snapshotImage];
     }
@@ -302,7 +398,7 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
 
 - (UIImage *)up_disabledImage {
     if (!_up_disabledImage) {
-        CAGradientLayer *gradientLayer = [self createGradientLayerWithColors:@[[[UIColor colorWithHex:kUpNormalFromColor] colorWithAlphaComponent:0.5], [[UIColor colorWithHex:kUpNormalToColor] colorWithAlphaComponent:0.5]] directionType:BXArtboardDirectionTypeDefault];
+        CAGradientLayer *gradientLayer = [self gradientLayerWithFrame:self.bounds colors:@[[[UIColor colorWithHex:kUpNormalFromColor] colorWithAlphaComponent:0.5], [[UIColor colorWithHex:kUpNormalToColor] colorWithAlphaComponent:0.5]] directionType:BXArtboardDirectionTypeDefault];
         _up_disabledImage = [gradientLayer snapshotImage];
     }
     return _up_disabledImage;
@@ -310,7 +406,7 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
 
 - (UIImage *)down_normalImage {
     if (!_down_normalImage) {
-        CALayer *layer = [self createLayerWithBgColor:[UIColor whiteColor] borderColor:[UIColor colorWithHex:kDownNormalBorderLayerColor]];
+        CALayer *layer = [self createLayerWithFrame:self.bounds bgColor:[UIColor whiteColor] borderColor:[UIColor colorWithHex:kDownNormalBorderLayerColor]];
         _down_normalImage = [layer snapshotImage];
     }
     return _down_normalImage;
@@ -318,8 +414,8 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
 
 - (UIImage *)down_highlightedImage {
     if (!_down_highlightedImage) {
-        CALayer *layer = [self createLayerWithBgColor:[UIColor whiteColor] borderColor:[UIColor colorWithHex:kDownNormalBorderLayerColor]];
-        CALayer *maskLayer = [self createMaskLayerWithColor:[[UIColor blackColor] colorWithAlphaComponent:0.1]];
+        CALayer *layer = [self createLayerWithFrame:self.bounds bgColor:[UIColor whiteColor] borderColor:[UIColor colorWithHex:kDownNormalBorderLayerColor]];
+        CALayer *maskLayer = [self maskLayerWithFrame:self.bounds color:[[UIColor blackColor] colorWithAlphaComponent:0.1]];
         [layer addSublayer:maskLayer];
         _down_highlightedImage = [layer snapshotImage];
     }
@@ -328,7 +424,7 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
 
 - (UIImage *)down_disabledImage {
     if (!_down_disabledImage) {
-        CALayer *layer = [self createLayerWithBgColor:[UIColor colorWithHex:kDownDisbaledBackgroundColor] borderColor:[UIColor colorWithHex:kDownDisbaledBorderLayerColor]];
+        CALayer *layer = [self createLayerWithFrame:self.bounds bgColor:[UIColor colorWithHex:kDownDisbaledBackgroundColor] borderColor:[UIColor colorWithHex:kDownDisbaledBorderLayerColor]];
         _down_disabledImage = [layer snapshotImage];
     }
     return _down_disabledImage;
