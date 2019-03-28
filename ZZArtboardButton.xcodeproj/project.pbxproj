@@ -13,9 +13,9 @@
 		547AC1952249CA9F005788FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 547AC1942249CA9F005788FD /* Assets.xcassets */; };
 		547AC1982249CA9F005788FD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 547AC1962249CA9F005788FD /* LaunchScreen.storyboard */; };
 		547AC19B2249CA9F005788FD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AC19A2249CA9F005788FD /* main.m */; };
-		547AC1A32249CAB9005788FD /* ZZArtboardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AC1A22249CAB9005788FD /* ZZArtboardButton.m */; };
+		547AC1A32249CAB9005788FD /* ZZSArtboardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AC1A22249CAB9005788FD /* ZZSArtboardButton.m */; };
 		547AC1A62249CC35005788FD /* UIColor+ZZAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AC1A52249CC35005788FD /* UIColor+ZZAdd.m */; };
-		547AC1AA224A29A2005788FD /* BXArtboardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AC1A8224A29A2005788FD /* BXArtboardButton.m */; };
+		547AC1AA224A29A2005788FD /* ZZArtboardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 547AC1A8224A29A2005788FD /* ZZArtboardButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,12 +29,12 @@
 		547AC1972249CA9F005788FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		547AC1992249CA9F005788FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		547AC19A2249CA9F005788FD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		547AC1A12249CAB9005788FD /* ZZArtboardButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZArtboardButton.h; sourceTree = "<group>"; };
-		547AC1A22249CAB9005788FD /* ZZArtboardButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZArtboardButton.m; sourceTree = "<group>"; };
+		547AC1A12249CAB9005788FD /* ZZSArtboardButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZSArtboardButton.h; sourceTree = "<group>"; };
+		547AC1A22249CAB9005788FD /* ZZSArtboardButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZSArtboardButton.m; sourceTree = "<group>"; };
 		547AC1A42249CC35005788FD /* UIColor+ZZAdd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+ZZAdd.h"; sourceTree = "<group>"; };
 		547AC1A52249CC35005788FD /* UIColor+ZZAdd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ZZAdd.m"; sourceTree = "<group>"; };
-		547AC1A8224A29A2005788FD /* BXArtboardButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BXArtboardButton.m; sourceTree = "<group>"; };
-		547AC1A9224A29A2005788FD /* BXArtboardButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BXArtboardButton.h; sourceTree = "<group>"; };
+		547AC1A8224A29A2005788FD /* ZZArtboardButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZArtboardButton.m; sourceTree = "<group>"; };
+		547AC1A9224A29A2005788FD /* ZZArtboardButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZArtboardButton.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,15 +67,13 @@
 		547AC18A2249CA9D005788FD /* ZZArtboardButton */ = {
 			isa = PBXGroup;
 			children = (
-				547AC1A7224A01F3005788FD /* Support Files */,
 				547AC18B2249CA9D005788FD /* AppDelegate.h */,
 				547AC18C2249CA9D005788FD /* AppDelegate.m */,
 				547AC18E2249CA9D005788FD /* ViewController.h */,
 				547AC18F2249CA9D005788FD /* ViewController.m */,
-				547AC1A12249CAB9005788FD /* ZZArtboardButton.h */,
-				547AC1A22249CAB9005788FD /* ZZArtboardButton.m */,
-				547AC1A9224A29A2005788FD /* BXArtboardButton.h */,
-				547AC1A8224A29A2005788FD /* BXArtboardButton.m */,
+				547AC1A9224A29A2005788FD /* ZZArtboardButton.h */,
+				547AC1A8224A29A2005788FD /* ZZArtboardButton.m */,
+				547AC1A7224A01F3005788FD /* Support Files */,
 			);
 			path = ZZArtboardButton;
 			sourceTree = "<group>";
@@ -83,6 +81,7 @@
 		547AC1A7224A01F3005788FD /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
+				547AC1BA224C711F005788FD /* 简单版 */,
 				547AC1A42249CC35005788FD /* UIColor+ZZAdd.h */,
 				547AC1A52249CC35005788FD /* UIColor+ZZAdd.m */,
 				547AC1912249CA9D005788FD /* Main.storyboard */,
@@ -92,6 +91,15 @@
 				547AC19A2249CA9F005788FD /* main.m */,
 			);
 			path = "Support Files";
+			sourceTree = "<group>";
+		};
+		547AC1BA224C711F005788FD /* 简单版 */ = {
+			isa = PBXGroup;
+			children = (
+				547AC1A12249CAB9005788FD /* ZZSArtboardButton.h */,
+				547AC1A22249CAB9005788FD /* ZZSArtboardButton.m */,
+			);
+			path = "简单版";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,8 +172,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				547AC1AA224A29A2005788FD /* BXArtboardButton.m in Sources */,
-				547AC1A32249CAB9005788FD /* ZZArtboardButton.m in Sources */,
+				547AC1AA224A29A2005788FD /* ZZArtboardButton.m in Sources */,
+				547AC1A32249CAB9005788FD /* ZZSArtboardButton.m in Sources */,
 				547AC1902249CA9D005788FD /* ViewController.m in Sources */,
 				547AC19B2249CA9F005788FD /* main.m in Sources */,
 				547AC18D2249CA9D005788FD /* AppDelegate.m in Sources */,

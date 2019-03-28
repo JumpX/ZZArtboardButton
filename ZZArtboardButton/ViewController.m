@@ -7,8 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "ZZSArtboardButton.h"
 #import "ZZArtboardButton.h"
-#import "BXArtboardButton.h"
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -33,9 +33,9 @@
 }
 
 - (void)createButton0 {
-    BXArtboardButton *customButton = [BXArtboardButton buttonWithType:UIButtonTypeCustom];
+    ZZArtboardButton *customButton = [ZZArtboardButton buttonWithType:UIButtonTypeCustom];
     customButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 34.0, SCREEN_WIDTH/2.0, 44.0);
-    [customButton setType:BXArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
+    [customButton setType:ZZArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
     [customButton setBackgroundImageWithColor:[UIColor blueColor] forState:UIControlStateNormal];
     [customButton setBackgroundImageWithColor:[UIColor redColor] forState:UIControlStateHighlighted | UIControlStateSelected];
@@ -45,22 +45,25 @@
 }
 
 - (void)createButton1 {
-    BXArtboardButton *customButton = [BXArtboardButton buttonWithType:UIButtonTypeCustom];
-    customButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100.0, SCREEN_WIDTH/2.0, 44.0);
-    [customButton setType:BXArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
+    ZZArtboardButton *customButton = [ZZArtboardButton buttonWithType:UIButtonTypeCustom];
+    [customButton setType:ZZArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
-    [customButton setBackgroundImageWithColor:[UIColor redColor] forState:UIControlStateNormal];
-    [customButton setBackgroundImageWithColor:[UIColor blackColor] forState:UIControlStateSelected];
     customButton.bxAdjustsWhenHighlighted = NO;
+    __weak typeof(customButton) weakButton = customButton;
+    customButton.layoutCustomBackgroundImageBlock = ^{
+        [weakButton setBackgroundImageWithColor:[UIColor redColor] forState:UIControlStateNormal];
+        [weakButton setBackgroundImageWithColor:[UIColor blackColor] forState:UIControlStateSelected];
+    };
     [customButton addTarget:self action:@selector(bxSelectedClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:customButton];
+    customButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100.0, SCREEN_WIDTH/2.0, 44.0);
 }
 
 - (void)createButton2 {
-    BXArtboardButton *customButton = [BXArtboardButton buttonWithType:UIButtonTypeCustom];
+    ZZArtboardButton *customButton = [ZZArtboardButton buttonWithType:UIButtonTypeCustom];
     customButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0, SCREEN_WIDTH/2.0, 44.0);
     customButton.bxAdjustsWhenHighlighted = NO;
-    [customButton setType:BXArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
+    [customButton setType:ZZArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
     [customButton setBackgroundImageWithColor:[UIColor redColor] boderColor:[UIColor blackColor] forState:UIControlStateNormal];
     [customButton setBackgroundImageWithColor:[UIColor greenColor] boderColor:[UIColor blueColor] forState:UIControlStateSelected];
@@ -69,96 +72,96 @@
 }
 
 - (void)createButton3 {
-    BXArtboardButton *customButton = [BXArtboardButton buttonWithType:UIButtonTypeCustom];
+    ZZArtboardButton *customButton = [ZZArtboardButton buttonWithType:UIButtonTypeCustom];
     customButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0*2, SCREEN_WIDTH/2.0, 44.0);
-    [customButton setType:BXArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
+    [customButton setType:ZZArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
-    [customButton setBackgroundImageWithColors:@[[UIColor blackColor], [UIColor redColor], [UIColor greenColor]] boderColor:[UIColor blackColor] forState:UIControlStateNormal directionType:BXArtboardDirectionTypeDefault];
+    [customButton setBackgroundImageWithColors:@[[UIColor blackColor], [UIColor redColor], [UIColor greenColor]] boderColor:[UIColor blackColor] forState:UIControlStateNormal directionType:ZZArtboardDirectionTypeDefault];
     [self.view addSubview:customButton];
 }
 
 - (void)createButton4 {
-    BXArtboardButton *customButton = [BXArtboardButton buttonWithType:UIButtonTypeCustom];
+    ZZArtboardButton *customButton = [ZZArtboardButton buttonWithType:UIButtonTypeCustom];
     customButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0*3, SCREEN_WIDTH/2.0, 44.0);
-    [customButton setType:BXArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
+    [customButton setType:ZZArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
-    [customButton setBackgroundImageWithColors:@[[UIColor blackColor], [UIColor redColor], [UIColor greenColor]] boderColor:[UIColor blackColor] forState:UIControlStateNormal directionType:BXArtboardDirectionTypeTopToBottom];
+    [customButton setBackgroundImageWithColors:@[[UIColor blackColor], [UIColor redColor], [UIColor greenColor]] boderColor:[UIColor blackColor] forState:UIControlStateNormal directionType:ZZArtboardDirectionTypeTopToBottom];
     [self.view addSubview:customButton];
 }
 
 - (void)createButton5 {
-    BXArtboardButton *customButton = [BXArtboardButton buttonWithType:UIButtonTypeCustom];
+    ZZArtboardButton *customButton = [ZZArtboardButton buttonWithType:UIButtonTypeCustom];
     customButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0*4, SCREEN_WIDTH/2.0, 44.0);
-    [customButton setType:BXArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
+    [customButton setType:ZZArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
-    [customButton setBackgroundImageWithColors:@[[UIColor blackColor], [UIColor redColor], [UIColor greenColor]] boderColor:[UIColor blackColor] forState:UIControlStateNormal directionType:BXArtboardDirectionTypeLeftToRight];
+    [customButton setBackgroundImageWithColors:@[[UIColor blackColor], [UIColor redColor], [UIColor greenColor]] boderColor:[UIColor blackColor] forState:UIControlStateNormal directionType:ZZArtboardDirectionTypeLeftToRight];
     [self.view addSubview:customButton];
 }
 
 - (void)createButton6 {
-    BXArtboardButton *customButton = [BXArtboardButton buttonWithType:UIButtonTypeCustom];
+    ZZArtboardButton *customButton = [ZZArtboardButton buttonWithType:UIButtonTypeCustom];
     customButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0*5, SCREEN_WIDTH/2.0, 44.0);
-    [customButton setType:BXArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
+    [customButton setType:ZZArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
-    [customButton setBackgroundImageWithColors:@[[UIColor blackColor], [UIColor redColor], [UIColor greenColor]] forState:UIControlStateNormal directionType:BXArtboardDirectionTypeLeftTopToRightBottom];
+    [customButton setBackgroundImageWithColors:@[[UIColor blackColor], [UIColor redColor], [UIColor greenColor]] forState:UIControlStateNormal directionType:ZZArtboardDirectionTypeLeftTopToRightBottom];
     [self.view addSubview:customButton];
 }
 
 - (void)createButton7 {
-    BXArtboardButton *customButton = [BXArtboardButton buttonWithType:UIButtonTypeCustom];
+    ZZArtboardButton *customButton = [ZZArtboardButton buttonWithType:UIButtonTypeCustom];
     customButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0*6, SCREEN_WIDTH/2.0, 44.0);
-    [customButton setType:BXArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
+    [customButton setType:ZZArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
     [customButton setBackgroundImageWithColors:@[[UIColor blackColor], [UIColor redColor], [UIColor greenColor]] forState:UIControlStateNormal];
     [self.view addSubview:customButton];
 }
 
 - (void)createButton8 {
-    BXArtboardButton *customButton = [BXArtboardButton buttonWithType:UIButtonTypeCustom];
+    ZZArtboardButton *customButton = [ZZArtboardButton buttonWithType:UIButtonTypeCustom];
     customButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0*7, SCREEN_WIDTH/2.0, 44.0);
-    [customButton setType:BXArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
+    [customButton setType:ZZArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
-    [customButton setBackgroundImageWithColors:@[[UIColor blackColor], [UIColor redColor], [UIColor greenColor]] forState:UIControlStateNormal directionType:BXArtboardDirectionTypeTopToBottom];
+    [customButton setBackgroundImageWithColors:@[[UIColor blackColor], [UIColor redColor], [UIColor greenColor]] forState:UIControlStateNormal directionType:ZZArtboardDirectionTypeTopToBottom];
     [self.view addSubview:customButton];
 }
 
 - (void)createBXButtonUp {
-    BXArtboardButton *upButton = [BXArtboardButton buttonWithType:UIButtonTypeCustom];
+    ZZArtboardButton *upButton = [ZZArtboardButton buttonWithType:UIButtonTypeCustom];
     upButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0*8, SCREEN_WIDTH/2.0, 44.0);
-    [upButton setType:BXArtboardTypeUp textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"类型一 正常状态"];
+    [upButton setType:ZZArtboardTypeUp textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"类型一 正常状态"];
     [upButton setUpTitles];
     [upButton addTarget:self action:@selector(bxClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:upButton];
 }
 
 - (void)createBXButtonDown {
-    BXArtboardButton *upButton = [BXArtboardButton buttonWithType:UIButtonTypeCustom];
+    ZZArtboardButton *upButton = [ZZArtboardButton buttonWithType:UIButtonTypeCustom];
     upButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0*9, SCREEN_WIDTH/2.0, 44.0);
-    [upButton setType:BXArtboardTypeDown textColor:[UIColor colorWithHex:@"#1D9AFF"] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"类型一 正常状态"];
+    [upButton setType:ZZArtboardTypeDown textColor:[UIColor colorWithHex:@"#1D9AFF"] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"类型一 正常状态"];
     [upButton setDownTitles];
     [upButton addTarget:self action:@selector(bxClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:upButton];
 }
 
 - (void)createZZUpButton {
-    ZZArtboardButton *upButton = [ZZArtboardButton buttonWithType:UIButtonTypeCustom];
+    ZZSArtboardButton *upButton = [ZZSArtboardButton buttonWithType:UIButtonTypeCustom];
     upButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0*10, SCREEN_WIDTH/2.0, 44.0);
-    [upButton setType:ZZArtboardTypeUp textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"类型一 正常状态"];
+    [upButton setType:ZZSArtboardTypeUp textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"类型一 正常状态"];
     [upButton setUpTitles];
     [upButton addTarget:self action:@selector(zzClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:upButton];
 }
 
 - (void)createZZDownButton {
-    ZZArtboardButton *downButton = [ZZArtboardButton buttonWithType:UIButtonTypeCustom];
+    ZZSArtboardButton *downButton = [ZZSArtboardButton buttonWithType:UIButtonTypeCustom];
     downButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0*11, SCREEN_WIDTH/2.0, 44.0);
-    [downButton setType:ZZArtboardTypeDown textColor:[UIColor colorWithHex:@"#1D9AFF"] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"类型二 正常状态"];
+    [downButton setType:ZZSArtboardTypeDown textColor:[UIColor colorWithHex:@"#1D9AFF"] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"类型二 正常状态"];
     [downButton setDownTitles];
     [downButton addTarget:self action:@selector(zzClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:downButton];
 }
 
-- (void)bxClearClick:(BXArtboardButton *)button {
+- (void)bxClearClick:(ZZArtboardButton *)button {
     [button clearAllBackgroundImages];
     if (!button.selected) {
         button.selected = YES;
@@ -166,18 +169,18 @@
         button.enabled = NO;
         button.selected = NO;
     }
-    [button setBackgroundImageWithColors:@[[UIColor redColor], [UIColor blackColor]] forState:UIControlStateNormal directionType:BXArtboardDirectionTypeDefault];
+    [button setBackgroundImageWithColors:@[[UIColor redColor], [UIColor blackColor]] forState:UIControlStateNormal directionType:ZZArtboardDirectionTypeDefault];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         button.enabled = YES;
     });
 }
 
-- (void)bxSelectedClick:(BXArtboardButton *)button {
+- (void)bxSelectedClick:(ZZArtboardButton *)button {
     button.selected = !button.selected;
     button.frame = CGRectMake(10, 100, 200, 80);
 }
 
-- (void)bxChangeFrameClick:(BXArtboardButton *)button {
+- (void)bxChangeFrameClick:(ZZArtboardButton *)button {
     button.selected = !button.selected;
     CGRect rect = CGRectMake(150, 100, 200, 80);
     if (!CGRectEqualToRect(button.frame, rect)) {
@@ -187,7 +190,7 @@
     }
 }
 
-- (void)bxClick:(BXArtboardButton *)button {
+- (void)bxClick:(ZZArtboardButton *)button {
     CGRect rect = button.frame;
     rect.size.width = 300;
     rect.size.height = 60;
@@ -207,7 +210,7 @@
     });
 }
 
-- (void)zzClick:(ZZArtboardButton *)button {
+- (void)zzClick:(ZZSArtboardButton *)button {
     if (!button.selected) {
         button.selected = YES;
     } else {
