@@ -374,12 +374,22 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
     }
     NSMutableArray *cgColors = [NSMutableArray array];
     NSMutableArray *locations = [NSMutableArray array];
-    CGFloat perLocation = 1.0/count;
-    for (NSInteger i = 0; i < count; i ++) {
-        [cgColors addObject:(__bridge id)colors[i].CGColor];
-        [locations addObject:@(perLocation*i)];
+    if (count == 1) {
+        [locations addObject:@(0)];
+        [locations addObject:@(1.0)];
+        [cgColors addObject:(__bridge id)colors[0].CGColor];
+        [cgColors addObject:(__bridge id)colors[0].CGColor];
+    } else {
+        CGFloat perLocation = 1.0/(count-1);
+        for (NSInteger i = 0; i < count; i ++) {
+            [locations addObject:@(perLocation*i)];
+        }
+        for (NSInteger i = 0; i < count; i ++) {
+            [cgColors addObject:(__bridge id)colors[i].CGColor];
+        }
     }
     CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+    gradientLayer.type = kCAGradientLayerAxial;
     gradientLayer.colors = [cgColors copy];
     gradientLayer.locations = [locations copy];
     gradientLayer.startPoint = startPoint;

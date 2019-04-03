@@ -76,7 +76,7 @@
     customButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0*2, SCREEN_WIDTH/2.0, 44.0);
     [customButton setType:ZZArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
-    [customButton setBackgroundImageWithColors:@[[UIColor blackColor], [UIColor redColor], [UIColor greenColor]] boderColor:[UIColor blackColor] forState:UIControlStateNormal directionType:ZZArtboardDirectionTypeDefault];
+    [customButton setBackgroundImageWithColors:@[[UIColor whiteColor], [UIColor blackColor], [UIColor whiteColor], [UIColor blackColor], [UIColor blackColor]] boderColor:[UIColor blackColor] forState:UIControlStateNormal directionType:ZZArtboardDirectionTypeDefault];
     [self.view addSubview:customButton];
 }
 
@@ -85,7 +85,7 @@
     customButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0*3, SCREEN_WIDTH/2.0, 44.0);
     [customButton setType:ZZArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
-    [customButton setBackgroundImageWithColors:@[[UIColor blackColor], [UIColor redColor], [UIColor greenColor]] boderColor:[UIColor blackColor] forState:UIControlStateNormal directionType:ZZArtboardDirectionTypeTopToBottom];
+    [customButton setBackgroundImageWithColors:@[[UIColor blueColor], [UIColor whiteColor], [UIColor redColor]] boderColor:[UIColor blackColor] forState:UIControlStateNormal directionType:ZZArtboardDirectionTypeTopToBottom];
     [self.view addSubview:customButton];
 }
 
@@ -94,7 +94,7 @@
     customButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0*4, SCREEN_WIDTH/2.0, 44.0);
     [customButton setType:ZZArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
-    [customButton setBackgroundImageWithColors:@[[UIColor blackColor], [UIColor redColor], [UIColor greenColor]] boderColor:[UIColor blackColor] forState:UIControlStateNormal directionType:ZZArtboardDirectionTypeLeftToRight];
+    [customButton setBackgroundImageWithColors:@[[UIColor blueColor], [UIColor redColor]] boderColor:[UIColor blackColor] forState:UIControlStateNormal directionType:ZZArtboardDirectionTypeLeftToRight];
     [self.view addSubview:customButton];
 }
 
@@ -103,7 +103,7 @@
     customButton.frame = CGRectMake(SCREEN_WIDTH/4.0, 100+66.0*5, SCREEN_WIDTH/2.0, 44.0);
     [customButton setType:ZZArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
-    [customButton setBackgroundImageWithColors:@[[UIColor blackColor], [UIColor redColor], [UIColor greenColor]] forState:UIControlStateNormal directionType:ZZArtboardDirectionTypeLeftTopToRightBottom];
+    [customButton setBackgroundImageWithColors:@[[UIColor redColor]] forState:UIControlStateNormal directionType:ZZArtboardDirectionTypeLeftTopToRightBottom];
     [self.view addSubview:customButton];
 }
 
