@@ -416,6 +416,15 @@ static NSString * const kDownDisbaledBorderLayerColor = @"#E1E1E1";
     return maskLayer;
 }
 
++ (void)setShadowWithLayer:(CALayer *)layer color:(UIColor *)color offset:(CGSize)offset radius:(CGFloat)radius opacity:(CGFloat)opacity height:(CGFloat)height {
+    layer.shadowOffset = offset;
+    layer.shadowColor = color.CGColor;
+    layer.shadowRadius = radius;
+    layer.shadowOpacity = opacity;
+    UIBezierPath *path = [UIBezierPath bezierPathWithRect:CGRectMake(0, layer.frame.size.height - height / 2, layer.frame.size.width, height)];
+    layer.shadowPath = path.CGPath;
+}
+
 #pragma mark - Getter
 
 - (UIImage *)up_normalImage {

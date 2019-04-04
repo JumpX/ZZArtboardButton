@@ -65,8 +65,13 @@
     customButton.bxAdjustsWhenHighlighted = NO;
     [customButton setType:ZZArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
-    [customButton setBackgroundImageWithColor:[UIColor redColor] boderColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [customButton setBackgroundImageWithColor:[UIColor greenColor] boderColor:[UIColor blueColor] forState:UIControlStateSelected];
+    __weak typeof(customButton) weakButton = customButton;
+    customButton.layoutCustomBackgroundImageBlock = ^{
+        [weakButton setBackgroundImageWithColors:@[[UIColor redColor],[UIColor blueColor]] boderColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [weakButton setBackgroundImageWithColors:@[[UIColor blueColor],[UIColor redColor]] boderColor:[UIColor blueColor] forState:UIControlStateSelected];
+        weakButton.clipsToBounds = NO;
+        [ZZArtboardButton setShadowWithLayer:weakButton.layer color:[UIColor randomColor] offset:CGSizeZero radius:10.0 opacity:0.8 height:25.0];
+    };
     [customButton addTarget:self action:@selector(bxChangeFrameClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:customButton];
 }
@@ -77,6 +82,8 @@
     [customButton setType:ZZArtboardTypeCustom textColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium] text:@"自定义 正常状态"];
     [customButton setCustomTitles];
     [customButton setBackgroundImageWithColors:@[[UIColor whiteColor], [UIColor blackColor], [UIColor whiteColor], [UIColor blackColor], [UIColor blackColor]] boderColor:[UIColor blackColor] forState:UIControlStateNormal directionType:ZZArtboardDirectionTypeDefault];
+    customButton.clipsToBounds = NO;
+    [ZZArtboardButton setShadowWithLayer:customButton.layer color:[UIColor blueColor] offset:CGSizeZero radius:10.0 opacity:0.5 height:25.0];
     [self.view addSubview:customButton];
 }
 
@@ -182,11 +189,9 @@
 
 - (void)bxChangeFrameClick:(ZZArtboardButton *)button {
     button.selected = !button.selected;
-    CGRect rect = CGRectMake(150, 100, 200, 80);
+    CGRect rect = CGRectMake(150, 100+arc4random()%10, 200+arc4random()%20, 80+arc4random()%20);
     if (!CGRectEqualToRect(button.frame, rect)) {
         button.frame = rect;
-        [button setBackgroundImageWithColor:[UIColor redColor] boderColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [button setBackgroundImageWithColor:[UIColor greenColor] boderColor:[UIColor blueColor] forState:UIControlStateSelected];
     }
 }
 

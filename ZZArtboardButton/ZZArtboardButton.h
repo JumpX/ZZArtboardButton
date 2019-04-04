@@ -198,7 +198,9 @@ typedef NS_ENUM(NSInteger, ZZArtboardDirectionType) {
  @param directionType       ZZArtboardDirectionType（默认左下->右上）
  @return                    渐变图层
  */
-- (CAGradientLayer *)gradientLayerWithFrame:(CGRect)frame colors:(NSArray <UIColor *>*)colors directionType:(ZZArtboardDirectionType)directionType;
+- (CAGradientLayer *)gradientLayerWithFrame:(CGRect)frame
+                                     colors:(NSArray <UIColor *>*)colors
+                              directionType:(ZZArtboardDirectionType)directionType;
 
 /**
  图层（背景色、带1px框）
@@ -208,7 +210,9 @@ typedef NS_ENUM(NSInteger, ZZArtboardDirectionType) {
  @param borderColor         框颜色
  @return                    图层
  */
-- (CALayer *)createLayerWithFrame:(CGRect)frame bgColor:(UIColor *)bgColor borderColor:(UIColor *)borderColor;
+- (CALayer *)createLayerWithFrame:(CGRect)frame
+                          bgColor:(UIColor *)bgColor
+                      borderColor:(UIColor *)borderColor;
 
 /**
  图层（背景色）
@@ -217,7 +221,18 @@ typedef NS_ENUM(NSInteger, ZZArtboardDirectionType) {
  @param color               背景色
  @return                    图层
  */
-- (CALayer *)maskLayerWithFrame:(CGRect)frame color:(UIColor *)color;
+- (CALayer *)maskLayerWithFrame:(CGRect)frame
+                          color:(UIColor *)color;
+
+/**
+ 阴影
+ */
++ (void)setShadowWithLayer:(CALayer *)layer
+                     color:(UIColor *)color
+                    offset:(CGSize)offset
+                    radius:(CGFloat)radius
+                   opacity:(CGFloat)opacity
+                    height:(CGFloat)height;
 
 @end
 
